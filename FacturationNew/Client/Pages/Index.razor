@@ -1,0 +1,43 @@
+﻿@page "/"
+@inject HttpClient http
+@inject NavigationManager nav
+
+<h1>Business Corp Homepage</h1>
+<br />
+<br />
+<h3>Welcome to Business Corp.</h3>
+<br />
+<br />
+
+<h4>Chiffre D'Affaire 2020</h4>
+
+<strong> @busiNbr[1].ToString("€ 0.00") </strong>
+<br />
+<br />
+<h4>Montants Dû Factures 2020</h4>
+
+<strong> @busiNbr[0].ToString("€ 0.00") </strong>
+
+<br />
+<br />
+<br />
+<br />
+
+<div style="position:absolute; bottom:7px">
+    <p>Made by Laurent Varden</p>
+</div>
+
+@code {
+
+    private double[] busiNbr = { 0, 0 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        busiNbr = await http.GetFromJsonAsync<double[]>("api/dashboard");
+    }
+
+    private void toFacForm()
+    {
+        nav.NavigateTo("/newfacture");
+    }
+}

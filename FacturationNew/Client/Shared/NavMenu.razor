@@ -1,0 +1,47 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Business Corp</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="facture">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Factures
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="ca">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Chiffre d'Affaires
+            </NavLink>
+        </li>
+@*        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="api/factures">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Test Controller Factures
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="api/cas">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Test Controller Cas
+            </NavLink>
+        </li>*@
+    </ul>
+</div>
+6
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

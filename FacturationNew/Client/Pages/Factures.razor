@@ -1,0 +1,72 @@
+﻿@page "/facture"
+@using Facturation.Shared
+@*@inject IBusinessData Fac*@
+@inject HttpClient http
+@inject NavigationManager nav
+
+
+<h1>Factures</h1>
+<button class="btn btn-dark" @onclick=toFacForm>Ajouter Facture</button>
+<br /><br />
+@*@if (factures2.Count  == 0)*@
+@*@if (Fac.Factures == null)*@
+@if (allFactures == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Client</th>
+                <th>Montant dû</th>
+                <th>Montant Réglé</th>
+                <th>Date Emission</th>
+                <th>Date Règlement</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @*@foreach (var facture in Fac.Factures)*@
+            @foreach (var fac in allFactures)
+            {
+
+                <tr>
+                    <td><a href="api/factures/@fac.code">@fac.code</a></td>
+                    <td>@fac.client</td>
+                    <td>@fac.montantDu €</td>
+                    <td>@fac.montantRegle €</td>
+                    <td>@fac.GetDateE()</td>
+                    @if (fac.montantRegle != 0)
+                    {
+                        <td>@fac.GetDateR()</td>
+                    }
+                    else
+                    {
+                        <td style="color:red"> En Attente </td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+    @code {
+
+        private IEnumerable<Facture> allFactures = null;
+
+        protected override async Task OnInitializedAsync()
+        {
+            allFactures = await http.GetFromJsonAsync<IEnumerable<Facture>>("api/factures");            
+        }
+
+        private void toFacForm()
+        {
+            nav.NavigateTo("/newfacture");
+        }
+    }
+
+
+

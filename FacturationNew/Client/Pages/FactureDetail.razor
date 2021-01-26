@@ -1,0 +1,60 @@
+﻿@*@page "/api/factures/{code}"*@
+@using Facturation.Shared
+@*@inject IBusinessData Fac*@
+@inject HttpClient http
+@inject NavigationManager nav
+@*@inject BusinessData data*@
+
+<h1>Detail Facture</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Client</th>
+                <th>Montant dû</th>
+                <th>Montant Réglé</th>
+                <th>Date Emission</th>
+                <th>Date Règlement</th>
+            </tr>
+        </thead>
+        <tbody>
+
+                <tr>
+                    <td><a href="api/factures/@fac.code">@fac.code</a></td>
+                    <td>@fac.client</td>
+                    <td>@fac.montantDu €</td>
+                    <td>@fac.montantRegle €</td>
+                    <td>@fac.GetDateE()</td>
+                    @if (fac.montantRegle != 0)
+                    {
+                        <td>@fac.GetDateR()</td>
+                    }
+                    else
+                    {
+                        <td style="color:red"> En Attente </td>
+                    }
+
+                </tr>
+            
+        </tbody>
+    </table>
+
+@code {
+
+    @*DateTime dateNow = DateTime.Now;*@
+    FactureDTO fac = new FactureDTO();
+
+    @*Facture fac = _data.Factures.Where(fac => fac.code == code).FirstOrDefault();*@
+
+@*private IEnumerable<Facture> allFactures = null;*@
+
+@*protected override async Task OnInitializedAsync()
+{
+    fac = await http.GetFromJsonAsync<Facture>("api/factures/");
+}*@
+
+}
+
+
+

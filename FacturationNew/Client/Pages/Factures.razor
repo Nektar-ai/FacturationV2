@@ -1,15 +1,15 @@
 ﻿@page "/facture"
-@using Facturation.Shared
-@*@inject IBusinessData Fac*@
+
 @inject HttpClient http
 @inject NavigationManager nav
 
+@using Facturation.Shared
 
 <h1>Factures</h1>
 <button class="btn btn-dark" @onclick=toFacForm>Ajouter Facture</button>
-<br /><br />
-@*@if (factures2.Count  == 0)*@
-@*@if (Fac.Factures == null)*@
+<br />
+<br />
+
 @if (allFactures == null)
 {
     <p><em>Loading...</em></p>
@@ -29,7 +29,6 @@ else
         </thead>
         <tbody>
 
-            @*@foreach (var facture in Fac.Factures)*@
             @foreach (var fac in allFactures)
             {
 
@@ -53,20 +52,20 @@ else
         </tbody>
     </table>
 }
-    @code {
+@code {
 
-        private IEnumerable<Facture> allFactures = null;
+    private IEnumerable<Facture> allFactures = null;
 
-        protected override async Task OnInitializedAsync()
-        {
-            allFactures = await http.GetFromJsonAsync<IEnumerable<Facture>>("api/factures");            
-        }
-
-        private void toFacForm()
-        {
-            nav.NavigateTo("/newfacture");
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        allFactures = await http.GetFromJsonAsync<IEnumerable<Facture>>("api/factures");
     }
+
+    private void toFacForm()
+    {
+        nav.NavigateTo("/newfacture");
+    }
+}
 
 
 

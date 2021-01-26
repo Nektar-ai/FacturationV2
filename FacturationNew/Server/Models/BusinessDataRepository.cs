@@ -15,21 +15,25 @@ namespace Facturation.Server.Models
     {
         private readonly SqlConnection cnx;
         private readonly SqlDbContext _dbContext;
+        private Dictionary<string, ChiffreAffaire> dicoCa = new Dictionary<string, ChiffreAffaire>();
         public BusinessDataRepository(string cnxString)
         {
             cnx = new SqlConnection(cnxString);
+            makeDicoCas();
         }
         public BusinessDataRepository(string cnxString, SqlDbContext dbContext)
         {
             cnx = new SqlConnection(cnxString);
             this._dbContext = dbContext;
+            makeDicoCas();
         }
 
         public IEnumerable<Facture> Factures
             => cnx.Query<Facture>("SELECT * FROM Facture ORDER BY code DESC");
 
         public IEnumerable<ChiffreAffaire> CAs
-            => cnx.Query<ChiffreAffaire>("SELECT * FROM ChiffreAffaire ORDER BY year DESC");
+            /*=> cnx.Query<ChiffreAffaire>("SELECT * FROM ChiffreAffaire ORDER BY year DESC");*/
+            => dicoCa.Values.ToList();
 
         public IEnumerable<FactureDTO> FacturesDTO 
             => cnx.Query<FactureDTO>("SELECT * FROM Facture ORDER BY code DESC");
@@ -45,10 +49,7 @@ namespace Facturation.Server.Models
         {
             foreach (Facture f in facList)
             {
-                /*cnx.Query<Facture>("INSERT " + f + " INTO Facture");*/
-                /*f.id = 1;*/
                 dbContext.Add(f);
-                /*Console.WriteLine("C'EST L'ID MAN : "+f.id);*/
             }
             dbContext.SaveChanges();
         }
@@ -57,12 +58,34 @@ namespace Facturation.Server.Models
         {
             foreach (ChiffreAffaire ca in caList)
             {
-                /*cnx.Query<Facture>("INSERT " + f + " INTO Facture");*/
-                /*f.id = 1;*/
                 dbContext.Add(ca);
-                /*Console.WriteLine("C'EST L'ID MAN : "+f.id);*/
             }
             dbContext.SaveChanges();
+        }
+
+        public void makeDicoCas()
+        {
+            foreach (Facture f in Factures)
+            {
+                string facYear = f.dateEmission.Year.ToString();
+                if (!dicoCa.ContainsKey(facYear))
+                {
+                    dicoCa.Add(facYear, new ChiffreAffaire(facYear));
+                }
+                if (dicoCa.ContainsKey(facYear))
+                {
+                    dicoCa[facYear].chiffreAffairesReel += f.montantRegle;
+                    dicoCa[facYear].chiffreAffairesDu += f.montantDu;
+                }
+            }
+            foreach (KeyValuePair<string, ChiffreAffaire> kvp in dicoCa)
+            {
+                Console.WriteLine("(Cle Dico) Chiffre d'Affaire : {0}", kvp.Key);
+                Console.WriteLine("(Attr Objet CA Year) Chiffre d'Affaire : {0}", kvp.Value.year);
+                Console.WriteLine("(Attr Objet CA Du) Chiffre d'Affaire : {0}", kvp.Value.chiffreAffairesDu);
+                Console.WriteLine("(Attr Objet CA Reel) Chiffre d'Affaire : {0}", kvp.Value.chiffreAffairesReel);
+            }
+            Console.WriteLine("Nombre d'éléments dans Dico : " + dicoCa.Count);
         }
 
         public void addCa (ChiffreAffaire ca, SqlDbContext dbContext)

@@ -26,13 +26,15 @@ namespace Facturation.Server.Controllers
         }
 
         [HttpGet]
-        public double[] Get()
+        /*public double[] Get()*/
+        public IEnumerable<ChiffreAffaire> Get()
         {
             double[] BusiNbr = { 0, 0 };
             var factures = _data.FacturesDTO.ToList();
             var Cas = _data.CAs.ToList();
-
-            var lastCa = Cas.LastOrDefault();
+            
+            /*var lastCa = Cas.LastOrDefault();*/
+            var lastCa = Cas.FirstOrDefault();
             BusiNbr[1] = lastCa.chiffreAffairesReel;
 
             foreach (var f in factures)
@@ -49,7 +51,7 @@ namespace Facturation.Server.Controllers
                 if (c.year == "2020")
                     BusiNbr[1] += c.chiffreAffairesR;
             }*/
-            return BusiNbr;
+            return _data.CAs;
 
         }
     }

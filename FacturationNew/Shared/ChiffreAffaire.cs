@@ -57,8 +57,7 @@ namespace Facturation.Shared
         }
 
 
-        /*
-                public void CalculerCAD()
+        /*      public void CalculerCAD()
                 {
                     foreach (Facture f in this.listFac)
                     {

@@ -29,8 +29,8 @@ namespace Facturation.Server.Controllers
         [HttpGet]
         public IEnumerable<ChiffreAffaire> Get()
         {
-            /*return _data.CAs;*/
-            return _dbContext.ChiffreAffaire.ToList();
+            return _data.CAs;
+            /*return _dbContext.ChiffreAffaire.ToList();*/
         }
 
         [HttpGet("{year}")]

@@ -17,7 +17,7 @@ namespace Facturation.Server.Controllers
         private readonly ILogger<FacturesController> _logger;
         private readonly IBusinessData _data;
         private readonly SqlDbContext _dbContext;
-        private readonly BusinessData _bdata = new BusinessData();
+        /*private readonly BusinessData _bdata = new BusinessData();*/
 
         public FacturesController(ILogger<FacturesController> logger, IBusinessData data, SqlDbContext dbContext)        
         {
@@ -25,8 +25,6 @@ namespace Facturation.Server.Controllers
             this._data = data;
             /*this._bdata = bdata;*/
             this._dbContext = dbContext;
-            /*this._model = model;*/
-            /*this._mapper = mapper;*/
         }
 
 /*        [HttpGet]

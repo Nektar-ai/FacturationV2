@@ -1,12 +1,19 @@
-﻿@*@page "/api/factures/{code}"*@
-@using Facturation.Shared
-@*@inject IBusinessData Fac*@
+﻿@page "/factures/{code}"
+
 @inject HttpClient http
 @inject NavigationManager nav
-@*@inject BusinessData data*@
 
+@using Facturation.Shared
+
+<br />
 <h1>Detail Facture</h1>
-
+<br />
+@if (facList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
     <table class="table">
         <thead>
             <tr>
@@ -19,40 +26,41 @@
             </tr>
         </thead>
         <tbody>
-
-                <tr>
-                    <td><a href="api/factures/@fac.code">@fac.code</a></td>
-                    <td>@fac.client</td>
-                    <td>@fac.montantDu €</td>
-                    <td>@fac.montantRegle €</td>
-                    <td>@fac.GetDateE()</td>
-                    @if (fac.montantRegle != 0)
-                    {
-                        <td>@fac.GetDateR()</td>
-                    }
-                    else
-                    {
-                        <td style="color:red"> En Attente </td>
-                    }
-
-                </tr>
-            
+            @{fac = facList.Where(fac => fac.code == @Code).FirstOrDefault();}
+            <tr>
+                <td>@fac.code</td>
+                <td>@fac.client</td>
+                <td>@fac.montantDu €</td>
+                <td>@fac.montantRegle €</td>
+                <td>@fac.GetDateE()</td>
+                @if (fac.montantRegle != 0)
+                {
+                    <td>@fac.GetDateR()</td>
+                }
+                else
+                {
+                    <td style="color:red"> En Attente </td>
+                }
+            </tr>
         </tbody>
     </table>
-
+}
 @code {
 
-    @*DateTime dateNow = DateTime.Now;*@
+    [Parameter]
+    public string Code { get; set; }
+
+    IEnumerable<FactureDTO> facList = null;
     FactureDTO fac = new FactureDTO();
 
-    @*Facture fac = _data.Factures.Where(fac => fac.code == code).FirstOrDefault();*@
+@*Facture fac = _data.Factures.Where(fac => fac.code == code).FirstOrDefault();*@
 
 @*private IEnumerable<Facture> allFactures = null;*@
 
-@*protected override async Task OnInitializedAsync()
-{
-    fac = await http.GetFromJsonAsync<Facture>("api/factures/");
-}*@
+    protected override async Task OnInitializedAsync()
+    {
+        facList = await http.GetFromJsonAsync<IEnumerable<FactureDTO>>("api/factures");
+    }
 
 }
 

@@ -4,11 +4,12 @@
 @using Facturation.Shared
 
 <h1>Business Corp Homepage</h1>
-<br />
-<br />
+
+<br /><br />
+
 <h3>Welcome to Business Corp.</h3>
-<br />
-<br />
+
+<br /><br />
 
 @if (listCa == null)
 {
@@ -18,7 +19,7 @@ else
 {
     ca = listCa.FirstOrDefault();
     caDu = (ca.GetCAD() - ca.GetCAR());
-    @*@{var ca = listCa.FirstOrDefault();}*@
+
     <h4>Chiffre D'Affaire @ca.GetYear()</h4>
 
     <strong> @ca.GetCAR().ToString("€ 0.00") </strong>
@@ -39,17 +40,13 @@ else
 }
 @code {
 
-    @*private double[] busiNbr = { 0, 0 };*@
-
     private IEnumerable<ChiffreAffaire> listCa = null;
     private ChiffreAffaire ca = new ChiffreAffaire();
     private double caDu;
 
     protected override async Task OnInitializedAsync()
-    {
-        @*busiNbr = await http.GetFromJsonAsync<double[]>("api/dashboard");*@
-        listCa = await http.GetFromJsonAsync<IEnumerable<ChiffreAffaire>>("api/cas");
-        @*ca = await http.GetAsync("api/cas");*@
+    {        
+        listCa = await http.GetFromJsonAsync<IEnumerable<ChiffreAffaire>>("api/cas");        
     }
 
     private void toFacForm()
@@ -57,12 +54,3 @@ else
         nav.NavigateTo("/newfacture");
     }
 }
-
-@*<h4>Chiffre D'Affaire 2020</h4>
-
-    <strong> @busiNbr[1].ToString("€ 0.00") </strong>
-    <br />
-    <br />
-    <h4>Montants Dû Factures 2020</h4>
-
-    <strong> @busiNbr[0].ToString("€ 0.00") </strong>*@

@@ -16,8 +16,10 @@ namespace Facturation.Shared
         {
         }
         public DbSet<Facture> Facture { get; set; }
-        public DbSet<ChiffreAffaire> ChiffreAffaire { get; set; }
+        /*public DbSet<ChiffreAffaire> ChiffreAffaire { get; set; }*/
 
+        // Insertion de donnée dans la database au lancement de la migration (création) de la database
+        // Est donc executé une seule fois, avec la commande "Add-Migration 'NomMigration'"
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Facture>().HasData(new Facture
@@ -37,12 +39,6 @@ namespace Facturation.Shared
                 dateReglement = new DateTime(2018, 04, 25),
                 montantDu = 15535,
                 montantRegle = 15535
-            });
-            modelBuilder.Entity<ChiffreAffaire>().HasData(new ChiffreAffaire
-            {
-                id = 1,
-                chiffreAffairesDu = 66666,
-                chiffreAffairesReel = 66666                
             });
         }
     }

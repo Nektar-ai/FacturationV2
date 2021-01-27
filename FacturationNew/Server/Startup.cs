@@ -25,10 +25,11 @@ namespace Facturation.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {            
-            /*services.AddSingleton<IBusinessData>(sp => new BusinessData());*/
+            // Injection d'un composant BusinessDataRepository implémentant l'interface IBusinessData
             services.AddScoped<IBusinessData>(services
                 => new BusinessDataRepository(
                    Configuration.GetConnectionString("facturation")));
+            // Injection d'un mappage ORM entre les Entity & la base de donnée
             services.AddDbContext<SqlDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("facturation")));
             services.AddControllersWithViews();

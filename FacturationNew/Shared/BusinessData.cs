@@ -88,34 +88,7 @@ namespace Facturation.Shared
                         ca.chiffreAffairesReel += f.montantRegle;
                     }
                 }
-
-                /*if (f.dateEmission.Year == 2018)
-                {
-                    ca2018.chiffreAffairesDu += f.montantDu;
-                    ca2018.chiffreAffairesReel += f.montantRegle;
-                    *//*ca2018.listFac.Add(f);*//*
-                }
-                else if (f.dateEmission.Year == 2019)
-                {
-                    ca2019.chiffreAffairesDu += f.montantDu;
-                    ca2019.chiffreAffairesReel += f.montantRegle;
-                    *//*ca2019.listFac.Add(f);*//*
-                }
-                else if (f.dateEmission.Year == 2020)
-                {
-                    ca2020.chiffreAffairesDu += f.montantDu;
-                    ca2020.chiffreAffairesReel += f.montantRegle;
-                    *//*ca2020.listFac.Add(f);*//*
-                }
-                else if (f.dateEmission.Year == 2021)
-                {
-                    ca2021.chiffreAffairesDu += f.montantDu;
-                    ca2021.chiffreAffairesReel += f.montantRegle;
-                    *//*ca2021.listFac.Add(f);*//*
-                }*/
             }
-
-
         }
 
         public void AddFac(FactureDTO factureDTO)
@@ -134,11 +107,6 @@ namespace Facturation.Shared
         }
 
         public void addAllFac(List<Facture> facList, SqlDbContext dbContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void addAllCas(List<ChiffreAffaire> caList, SqlDbContext dbContext)
         {
             throw new NotImplementedException();
         }

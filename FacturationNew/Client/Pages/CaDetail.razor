@@ -1,0 +1,70 @@
+﻿@page "/ca/{year}"
+
+@inject HttpClient http
+@inject NavigationManager nav
+
+@using Facturation.Shared
+
+<br />
+<h1>Detail Chiffre d'Affaire @Year</h1>
+<br />
+<u><h4>Liste des Factures</h4></u>
+<br />
+@if (facList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Client</th>
+                <th>Montant dû</th>
+                <th>Montant Réglé</th>
+                <th>Date Emission</th>
+                <th>Date Règlement</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var fac in facList)
+            {
+                if (fac.dateEmission.Year.ToString() == @Year)
+                {
+                    <tr>
+                        <td><a href="/factures/@fac.code">@fac.code</a></td>
+                        <td>@fac.client</td>
+                        <td>@fac.montantDu €</td>
+                        <td>@fac.montantRegle €</td>
+                        <td>@fac.GetDateE()</td>
+                        @if (fac.montantRegle != 0)
+                        {
+                            <td>@fac.GetDateR()</td>
+                        }
+                        else
+                        {
+                            <td style="color:red"> En Attente </td>
+                        }
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+@code {
+    
+    [Parameter]
+    public string Year { get; set; }
+   
+    IEnumerable<Facture> facList = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        facList = await http.GetFromJsonAsync<IEnumerable<Facture>>("api/factures");
+    }
+}
+
+
+

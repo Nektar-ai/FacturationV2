@@ -32,33 +32,33 @@ else
             @foreach (var fac in allFactures)
             {
 
-                <tr>
-                    <td><a href="api/factures/@fac.code">@fac.code</a></td>
-                    <td>@fac.client</td>
-                    <td>@fac.montantDu €</td>
-                    <td>@fac.montantRegle €</td>
-                    <td>@fac.GetDateE()</td>
-                    @if (fac.montantRegle != 0)
-                    {
-                        <td>@fac.GetDateR()</td>
-                    }
-                    else
-                    {
-                        <td style="color:red"> En Attente </td>
-                    }
+            <tr>
+                <td><a href="/factures/@fac.code">@fac.code</a></td>
+                <td>@fac.client</td>
+                <td>@fac.montantDu €</td>
+                <td>@fac.montantRegle €</td>
+                <td>@fac.GetDateE()</td>
+                @if (fac.montantRegle != 0)
+                {
+                    <td>@fac.GetDateR()</td>
+                }
+                else
+                {
+                    <td style="color:red"> En Attente </td>
+                }
 
-                </tr>
+            </tr>
             }
         </tbody>
     </table>
 }
 @code {
 
-    private IEnumerable<Facture> allFactures = null;
+    private IEnumerable<FactureDTO> allFactures = null;
 
     protected override async Task OnInitializedAsync()
     {
-        allFactures = await http.GetFromJsonAsync<IEnumerable<Facture>>("api/factures");
+        allFactures = await http.GetFromJsonAsync<IEnumerable<FactureDTO>>("api/factures");
     }
 
     private void toFacForm()

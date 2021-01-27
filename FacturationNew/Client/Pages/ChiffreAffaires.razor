@@ -1,63 +1,46 @@
 ﻿@page "/ca"
-@using Facturation.Shared
-@*@inject IBusinessData ListCA*@
+
 @inject HttpClient http
 
+@using Facturation.Shared
 
+<br />
 <h1>Chiffres d'Affaires</h1>
-
-@*@if (ListCA.CAs == null)*@
-    @if (allCas == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
+<br />
+@if (allCas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Année</th>
+                <th>Chiffre d'Affaires Attendu</th>
+                <th>Chiffre d'Affaires Réel</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var ca in allCas)
+            {
                 <tr>
-                    <th>Année</th>
-                    <th>Chiffre d'Affaires Attendu</th>
-                    <th>Chiffre d'Affaires Réel</th>
+                    <td><a href="/ca/@ca.year"> @ca.year</a></td>
+                    <td>@ca.chiffreAffairesDu</td>
+                    <td>@ca.chiffreAffairesReel</td>
                 </tr>
-            </thead>
-            <tbody>
+            }
+        </tbody>
+    </table>
+}
+@code {
 
-                @*@foreach (ChiffreAffaire ca in ListCA.CAs)*@
-                @foreach (var ca in allCas)
-                {
-                    <tr>
-                        <td>@ca.year</td>
-                        <td>@ca.chiffreAffairesDu</td>
-                        <td>@ca.chiffreAffairesReel</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    private IEnumerable<ChiffreAffaire> allCas = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allCas = await http.GetFromJsonAsync<IEnumerable<ChiffreAffaire>>("api/cas");
     }
-        @code {
+}
 
-            private IEnumerable<ChiffreAffaire> allCas = null;
-
-            protected override async Task OnInitializedAsync()
-            {
-                allCas = await http.GetFromJsonAsync<IEnumerable<ChiffreAffaire>>("api/cas");
-
-                @*return base.OnInitializedAsync();*@
-            }
-        }
-
-    
-    @*
-        @code {
-            private List<Facture> factures2;
-            // private Facture[] factures;
-            private WeatherForecast[] forecasts;
-
-            protected override async Task OnInitializedAsync()
-            {
-                factures2 = await BusinessData. < List < Facture >> ("Facture");
-                forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-            }
-        }
-        *@

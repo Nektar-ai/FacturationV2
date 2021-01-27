@@ -36,7 +36,7 @@ namespace Facturation.Server.Models
             => dicoCa.Values.ToList();
 
         public IEnumerable<FactureDTO> FacturesDTO 
-            => cnx.Query<FactureDTO>("SELECT * FROM Facture ORDER BY code DESC");
+            => cnx.Query<FactureDTO>("SELECT * FROM Facture ORDER BY code ASC");
 
         public void AddFac(FactureDTO f, SqlDbContext dbContext)
         {
@@ -45,6 +45,8 @@ namespace Facturation.Server.Models
             dbContext.SaveChanges();
         }
 
+        // Méthode utilisée une seule fois pour injecter dans la base de donnée les factures
+        // créées préalablement en dur dans le code
         public void addAllFac(List<Facture> facList, SqlDbContext dbContext)
         {
             foreach (Facture f in facList)
@@ -54,15 +56,17 @@ namespace Facturation.Server.Models
             dbContext.SaveChanges();
         }
 
-        public void addAllCas(List<ChiffreAffaire> caList, SqlDbContext dbContext)
+/*        public void addAllCas(List<ChiffreAffaire> caList, SqlDbContext dbContext)
         {
             foreach (ChiffreAffaire ca in caList)
             {
                 dbContext.Add(ca);
             }
             dbContext.SaveChanges();
-        }
+        }*/
 
+        // Création d'un dictionnaire contenant des objets ChiffreAffaire, 
+        // en fonction de l'année des factures présentes dans la base de donnée
         public void makeDicoCas()
         {
             foreach (Facture f in Factures)
@@ -78,19 +82,10 @@ namespace Facturation.Server.Models
                     dicoCa[facYear].chiffreAffairesDu += f.montantDu;
                 }
             }
-            foreach (KeyValuePair<string, ChiffreAffaire> kvp in dicoCa)
-            {
-                Console.WriteLine("(Cle Dico) Chiffre d'Affaire : {0}", kvp.Key);
-                Console.WriteLine("(Attr Objet CA Year) Chiffre d'Affaire : {0}", kvp.Value.year);
-                Console.WriteLine("(Attr Objet CA Du) Chiffre d'Affaire : {0}", kvp.Value.chiffreAffairesDu);
-                Console.WriteLine("(Attr Objet CA Reel) Chiffre d'Affaire : {0}", kvp.Value.chiffreAffairesReel);
-            }
-            Console.WriteLine("Nombre d'éléments dans Dico : " + dicoCa.Count);
         }
 
         public void addCa (ChiffreAffaire ca, SqlDbContext dbContext)
-        {
-            /*cnx.Query<ChiffreAffaire>("INSERT " + ca + " INTO ChiffreAffaire");*/
+        {                             
             dbContext.Add(ca);
             dbContext.SaveChanges();
         }

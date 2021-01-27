@@ -35,12 +35,6 @@ namespace Facturation.Shared
             this.year = y;
         }
 
-
-/*        public List<Facture> getListFac()
-        {
-            return listFac;
-        }*/
-
         public string GetYear()
         {
             return this.year;
@@ -55,24 +49,5 @@ namespace Facturation.Shared
         {
             return this.chiffreAffairesReel;
         }
-
-
-        /*      public void CalculerCAD()
-                {
-                    foreach (Facture f in this.listFac)
-                    {
-                        this.chiffreAffairesD += f.getMontantD();
-                    }
-
-                }
-
-                public void CalculerCAR()
-                {
-                    foreach (Facture f in this.listFac)
-                    {
-                        this.chiffreAffairesR += f.getMontantR();
-                    }
-
-                }*/
     }
 }

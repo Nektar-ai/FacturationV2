@@ -10,9 +10,9 @@ namespace Facturation.Shared
         IEnumerable<Facture> Factures { get; }
         IEnumerable<FactureDTO> FacturesDTO { get; }
         IEnumerable<ChiffreAffaire> CAs { get; }
-        void AddFac(FactureDTO f);
         void AddFac(FactureDTO f, SqlDbContext d);
         public void addAllFac(List<Facture> facList, SqlDbContext dbContext);
+        public void deleteFac(FactureDTO f, SqlDbContext dbContext);
         /*public void addAllCas(List<ChiffreAffaire> caList, SqlDbContext dbContext);*/
     }
 }

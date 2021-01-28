@@ -8,6 +8,9 @@ namespace Facturation.Shared
 {
     public class FactureDTO
     {
+        [Key]
+        public int id { get; }
+
         [Required(ErrorMessage = "Code de facture requis")]
         [RegularExpression(@"^F[0-9]{3}$",
          ErrorMessage = "Format d'un code facture : F + 3 chiffres de 0 à 9")]

@@ -21,12 +21,10 @@ namespace Facturation.Server.Controllers
         [HttpGet]
         public IEnumerable<FactureDTO> Get()
         {
-            /*return _data.Factures;*/
-            /*return _dbContext.Facture.ToList();*/
             return _data.FacturesDTO;
         }
 
-/*        [HttpGet("{code}")]
+        [HttpGet("{code}")]
         public ActionResult<IEnumerable<Facture>> Get(string code)
         {
             var facture = _data.Factures.Where(fac => fac.code == code).ToList();
@@ -36,7 +34,7 @@ namespace Facturation.Server.Controllers
             }
             else
                 return NotFound("Facture non présente !");
-        }*/
+        }
 
         [HttpPost]
         public ActionResult<FactureDTO> Post([FromBody]FactureDTO newFac)

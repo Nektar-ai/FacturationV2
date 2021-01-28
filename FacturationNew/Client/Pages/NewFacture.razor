@@ -15,7 +15,7 @@
     </h5>
 }
 <br />
-@*@{Facture facture = new Facture}*@
+
 <EditForm Model=@facture OnValidSubmit=@ValidFormSubmitted OnInvalidSubmit=@InvalidFormSubmitted>
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -106,18 +106,7 @@
     {
         LastSubmitResult = "Formulaire Invalide !";
     }
-
 }
 
-@*    protected async Task ValidFormSubmitted()
-    {
-        string content = JsonSerializer.Serialize(facture);
-        var buffer = System.Text.Encoding.UTF8.GetBytes(content);
-        var byteContent = new ByteArrayContent(buffer);
-        byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-
-        var res = await http.PostAsync("api/factures", byteContent);
-    }
-*@
     
 

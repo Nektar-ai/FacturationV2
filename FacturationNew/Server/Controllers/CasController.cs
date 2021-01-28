@@ -1,11 +1,7 @@
-﻿/*using AutoMapper;*/
-using Facturation.Shared;
+﻿using Facturation.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Facturation.Server.Controllers
 {
@@ -25,18 +21,5 @@ namespace Facturation.Server.Controllers
         {
             return _data.CAs;
         }
-
-/*        [HttpGet("{year}")]
-        public ActionResult<IEnumerable<FactureDTO>> Get(string year)
-        {
-            var facList = _data.FacturesDTO.Where(fac => fac.dateEmission.Year.ToString() == year).ToList();
-            if (facList != null)
-            {
-                return facList;
-            }
-            else
-                return NotFound();
-        }*/
-
     }
 }

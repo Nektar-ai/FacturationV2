@@ -13,9 +13,9 @@ namespace Facturation.Server.Models
 {
     public class BusinessDataRepository : IBusinessData, IDisposable
     {
-        private readonly SqlConnection cnx;
-        private readonly SqlDbContext _dbContext;
+        private readonly SqlConnection cnx;        
         private Dictionary<string, ChiffreAffaire> dicoCa = new Dictionary<string, ChiffreAffaire>();
+
         public BusinessDataRepository(string cnxString)
         {
             cnx = new SqlConnection(cnxString);
@@ -23,16 +23,14 @@ namespace Facturation.Server.Models
         }
         public BusinessDataRepository(string cnxString, SqlDbContext dbContext)
         {
-            cnx = new SqlConnection(cnxString);
-            this._dbContext = dbContext;
+            cnx = new SqlConnection(cnxString);            
             makeDicoCas();
         }
 
         public IEnumerable<Facture> Factures
             => cnx.Query<Facture>("SELECT * FROM Facture ORDER BY code DESC");
 
-        public IEnumerable<ChiffreAffaire> CAs
-            /*=> cnx.Query<ChiffreAffaire>("SELECT * FROM ChiffreAffaire ORDER BY year DESC");*/
+        public IEnumerable<ChiffreAffaire> CAs            
             => dicoCa.Values.ToList();
 
         public IEnumerable<FactureDTO> FacturesDTO 
@@ -55,15 +53,6 @@ namespace Facturation.Server.Models
             }
             dbContext.SaveChanges();
         }
-
-/*        public void addAllCas(List<ChiffreAffaire> caList, SqlDbContext dbContext)
-        {
-            foreach (ChiffreAffaire ca in caList)
-            {
-                dbContext.Add(ca);
-            }
-            dbContext.SaveChanges();
-        }*/
 
         // Création d'un dictionnaire contenant des objets ChiffreAffaire, 
         // en fonction de l'année des factures présentes dans la base de donnée
@@ -95,9 +84,11 @@ namespace Facturation.Server.Models
             cnx.Dispose();
         }
 
-        public void AddFac(FactureDTO f)
-        {
-            throw new NotImplementedException();
+        public void deleteFac(FactureDTO f, SqlDbContext dbContext)
+        {            
+            Facture facDel = dbContext.Facture.Where(fac => fac.code == f.code).FirstOrDefault();
+            dbContext.Remove(facDel);
+            dbContext.SaveChanges();
         }
     }
 }

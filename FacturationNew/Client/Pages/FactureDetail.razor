@@ -27,6 +27,7 @@ else
         </thead>
         <tbody>
             @{fac = facList.Where(fac => fac.code == @Code).FirstOrDefault();}
+            <input type="hidden" value=@fac.id />
             <tr>
                 <td>@fac.code</td>
                 <td>@fac.client</td>
@@ -41,6 +42,7 @@ else
                 {
                     <td style="color:red"> En Attente </td>
                 }
+            <td><button class="btn btn-dark" @onclick=deleteFac>Effacer</button></td>
             </tr>
         </tbody>
     </table>
@@ -53,15 +55,16 @@ else
     IEnumerable<FactureDTO> facList = null;
     FactureDTO fac = new FactureDTO();
 
-@*Facture fac = _data.Factures.Where(fac => fac.code == code).FirstOrDefault();*@
-
-@*private IEnumerable<Facture> allFactures = null;*@
-
     protected override async Task OnInitializedAsync()
     {
         facList = await http.GetFromJsonAsync<IEnumerable<FactureDTO>>("api/factures");
     }
 
+    async void deleteFac()
+    {
+        await http.PostAsJsonAsync("/api/facturedetail", fac);
+        nav.NavigateTo("/facture");
+    }
 }
 
 

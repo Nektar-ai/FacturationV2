@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Facturation.Shared
 {
@@ -91,16 +89,6 @@ namespace Facturation.Shared
             }
         }
 
-        public void AddFac(FactureDTO factureDTO)
-        {
-            Facture fac = new Facture(factureDTO);
-            this.listeFactures.Add(fac);
-            foreach (var f in listeFactures)
-            {
-                Console.WriteLine(f.code);
-            }
-        }
-
         public void AddFac(FactureDTO f, SqlDbContext d)
         {
             throw new NotImplementedException();
@@ -111,43 +99,13 @@ namespace Facturation.Shared
             throw new NotImplementedException();
         }
 
-        /*public IEnumerable<Facture> Factures => listeFactures;*/
+        public void deleteFac(FactureDTO f, SqlDbContext dbContext)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<FactureDTO> FacturesDTO => listeFacturesDTO;
         public IEnumerable<ChiffreAffaire> CAs => listeCas;
-
         public IEnumerable<Facture> Factures => listeFactures;
     }
-
 }
-
-// J'ai Passé des heures à essayer de fonctionner par Dictionnaire
-// Malheureusement, je n'ai jamais vu la notion, il est maintenant 1h du mat, j'abandonne
-// (Je voulais créer des objets ChiffreAffaire dynamiques suivant la valeur année dans la Date de Facture
-// Je me rabats donc sur des objets ChiffreAffaire instanciés en Dur..
-
-
-
-/*       public List<ChiffreAffaire> GenerateCAs(List<Facture> fL)
-       {
-           Dictionary<string, ChiffreAffaire> dicoCA = new Dictionary<string, ChiffreAffaire>();
-           List<ChiffreAffaire> listCA = new List<ChiffreAffaire>();
-
-           foreach (Facture facture in fL)
-           {
-               string year = facture.getDateR().Substring(facture.getDateR().Length - 4);
-
-               if (!dicoCA.ContainsKey("ca" + year))
-               {
-                   dicoCA.Add("ca" + year, new ChiffreAffaire(year));
-               }
-               ChiffreAffaire ca = dicoCA.GetValueOrDefault("ca" + year);
-               ca.listFac.Add(facture);
-           }
-
-           foreach (KeyValuePair<string, ChiffreAffaire> ca in dicoCA)
-           {
-               listCA.Add(ca.Value);
-           }
-
-           return listCA;
-       }*/

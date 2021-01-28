@@ -12,7 +12,7 @@ namespace Facturation.Shared
         /*[Required(ErrorMessage = "Code de facture requis")]*/
         
         [Key]
-        public int? id { get; set; }
+        public int id { get; set; }
         public string code { get; set; }
         public string client { get; set; }
         public DateTime dateEmission { get; set; }
